@@ -1,0 +1,118 @@
+% README.tex for MATE-Analyzer
+\documentclass\[a4paper,12pt]{article}
+% --- Paquetes necesarios ---
+\usepackage\[utf8]{inputenc}
+\usepackage\[T1]{fontenc}
+\usepackage\[spanish]{babel}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\geometry{margin=1in}
+
+\title{MATE analysis tool: Análisis de Datos del Muon Andes Telescope}
+\author{Diego Olmos Patiño.}
+\date{14 de junio de 2025}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+MATE-Analyzer es una herramienta desarrollada en C++ y ROOT para el procesamiento de datos del Muon Andes Telescope. Simplifica el flujo completo, desde la validación de datos crudos hasta la generación de histogramas y el ajuste exponencial del tiempo entre eventos. Este documento recoge los detalles de instalación, uso cotidiano, arquitectura interna y perspectivas de evolución.
+\end{abstract}
+
+\section{Visión General}
+El Muon Andes Telescope (MATE) registra señales en tres planos de detección denominados \texttt{m101}, \texttt{m102} y \texttt{m103}. Cada registro contiene seis columnas en formato hexadecimal que representan posiciones activas y timestamps. MATE-Analyzer automatiza:
+
+\begin{itemize}
+\item La validación de triadas de archivos de texto, detectando inconsistencias o faltantes.
+\item La conversión de datos limpios a árboles ROOT para análisis eficiente.
+\item La aplicación interactiva de filtros basados en expresiones ROOT.
+\item La creación de histogramas 1D/2D con estilos predeterminados y exportación a PDF.
+\item El cálculo de la distribución de tiempos entre eventos y su ajuste exponencial, con salida gráfica y numérica.
+\end{itemize}
+
+\section{Preparación del Entorno}
+Antes de compilar, asegúrese de contar con:
+
+\begin{itemize}
+\item Un compilador compatible con \texttt{-std=c++17}.
+\item ROOT 6 instalado (utilice \texttt{root-config} para verificar las rutas).
+\end{itemize}
+
+Organice el proyecto con la siguiente estructura de carpetas:
+
+\begin{verbatim}
+MATE-Analyzer/
+├── include/       # Archivos .hpp
+├── src/           # Archivos .cpp
+└── README.tex     # Documentación (este archivo)
+\end{verbatim}
+
+Para compilar todo el proyecto:
+\begin{verbatim}
+g++ -std=c++17 -Iinclude&#x20;
+src/PathConfig.cpp src/DataValidator.cpp src/DataProcessor.cpp&#x20;
+src/DateSelector.cpp src/TreeLoader.cpp src/DataFilter.cpp&#x20;
+src/HistogramMaker.cpp src/RateFitter.cpp src/main.cpp&#x20;
+\$(root-config --cflags --libs) -o MATE-Analyzer
+\end{verbatim}
+
+Al finalizar, el ejecutable \texttt{MATE-Analyzer} estará listo.
+
+\section{Estructura de Directorios para el Análisis}
+Para mantener limpio el proceso de análisis, prepare tres carpetas:
+
+\begin{description}
+\item\[\texttt{data/}]\hfill \\
+Contiene los archivos crudos de texto. Cada fecha debe disponer de tres archivos:
+\begin{itemize}
+\item \texttt{YYYYMMDD\_...mate-m101.txt}
+\item \texttt{YYYYMMDD\_...mate-m102.txt}
+\item \texttt{YYYYMMDD\_...mate-m103.txt}
+\end{itemize}
+\item\[\texttt{badData/}]\hfill \\
+Ubicación donde se moverán automáticamente las triadas incompletas, corruptas o con errores de formato.
+\item\[\texttt{output/}]\hfill \\
+Aquí se generarán los archivos PDF de histogramas, los árboles ROOT resultantes y el informe de validación.
+\end{description}
+
+\section{Flujo de Uso}
+Al ejecutar:
+\begin{verbatim}
+./MATE-Analyzer data/ badData/ output/report.txt
+\end{verbatim}
+se llevan a cabo las siguientes etapas:
+
+\subsection\*{1. Validación de Triadas}
+Se recorren todas las fechas detectadas en \texttt{data/}, verificando que existan los tres archivos y que cada fila cumpla el formato estructural.
+
+* Si falta un archivo, o una línea tiene errores (hexadecimal inválido, columnas incompletas), se registra la fecha y la línea en \texttt{output/report.txt} y se mueve la triada entera a \texttt{badData/}.
+
+\subsection\*{2. Procesamiento de Datos Válidos}
+Las fechas que superan la validación se procesan en orden cronológico. Para cada triada se crea:
+\begin{itemize}
+\item Un archivo de texto combinado \texttt{YYYYMMDD\_combined\_output.txt}.
+\item Un archivo ROOT \texttt{YYYYMMDD\_output.root} con un \texttt{TTree} que incluye todas las ramas necesarias.
+\end{itemize}
+
+\subsection\*{3. Análisis Interactivo}
+Una vez procesados los archivos, el menú permite:
+\begin{enumerate}
+\item Concatenar múltiples \texttt{.root} en un solo árbol (se puede exportar como \texttt{concatenated\_<timestamp>.root}).
+\item Aplicar filtros usando expresiones de ROOT, ya sea en memoria con \texttt{TEntryList} o exportando un árbol filtrado.
+\item Generar histogramas 1D (columnas A/B) o 2D (planos comparativos) y guardarlos en PDF.
+\item Calcular el rate de eventos mediante ajuste exponencial sobre la distribución de $\Delta t$, mostrando resultados en consola y en \texttt{rate\_fit.pdf}.
+\end{enumerate}
+
+\section{Descripción de Módulos}
+El código está dividido en clases que encapsulan responsabilidades:
+
+\paragraph{PathConfig} Gestiona la interacción inicial para definir rutas de datos y salida.
+\paragraph{DataValidator} Implementa la lógica de verificación de triadas, manejo de errores y reportería.
+\paragraph{DateSelector} Ofrece opciones de selección de fechas (todas, lista, rango) con validación.
+\paragraph{DataProcessor} Traduce triadas de texto a combinados planos y árboles ROOT.
+\paragraph{TreeLoader} Facilita la carga y concatenación de archivos ROOT en un \texttt{TChain}.
+\paragraph{DataFilter} Proporciona un bucle de entradas para crear filtros dinámicos y generar subconjuntos de eventos.
+\paragraph{HistogramMaker} Contiene la lógica para dibujar histogramas con estilo uniforme y exportarlos a PDF.
+\paragraph{RateFitter} Algoritmo de limpieza de timestamps y ajuste exponencial
+
