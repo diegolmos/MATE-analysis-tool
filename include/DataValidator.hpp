@@ -18,7 +18,6 @@ public:
     /// \return prefijos válidos (cada uno termina en “…/YYYYMMDD...”).
     static std::vector<std::string>
     validateDirectory(const PathConfig& cfg, bool promptMove = true);
-
 private:
     static DateReport      validateTriad(const PathConfig& cfg,
                                          const std::string& prefix);
@@ -27,7 +26,6 @@ private:
     static std::vector<std::string>
                            listPrefixes(const std::string& dataDir);
 
-    DataValidator() = delete;
-};
+    DataValidator() = delete;};
 
 #endif   // DATAVALIDATOR_HPP

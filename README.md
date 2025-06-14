@@ -1,20 +1,21 @@
 # MATE Analysis Tool
 
-MATE Analysis Tool es una herramienta en C++ basada en ROOT que facilita el procesamiento y análisis de los datos del Muon Andes Telescope (MATE). Abarca desde la validación de archivos de texto crudos hasta la generación de histogramas y el ajuste exponencial del rate de eventos de muones.
+MATE Analysis Tool es una pequeña herramienta en C++ basada en ROOT que facilita el procesamiento y análisis de datos del Muon Andes Telescope (MATE).
 
 ## Características principales
 
-* **Validación de triadas** (m101/m102/m103): detecta archivos faltantes o líneas corruptas, genera un informe y separa los datos inválidos.
-* **Conversión a ROOT**: transforma los datos limpios en archivos de texto combinados y en árboles `TTree` para un análisis más rápido.
-* **Concatenación de árboles**: une múltiples archivos ROOT en un solo `TChain` con opción de exportar el resultado.
-* **Filtrado interactivo**: permite aplicar expresiones ROOT en memoria o creando un nuevo árbol filtrado.
-* **Generación de histogramas 1D/2D**: produce reportes en PDF con estilos predefinidos.
-* **Ajuste exponencial del rate**: procesa timestamps de los tres planos, calcula la distribución de tiempos entre eventos y ajusta un modelo exponencial, mostrando gráficas y parámetros.
+- **Validación de fechas** (m101/m102/m103): Detecta archivos faltantes, líneas corruptas y otros posibles errores para cada archivo con datos del detector, genera un informe y separa los datos inválidos en un directorio definido por el usuario.
+- **Conversión a ROOT**: Luego de validar los archivos, el programa da la opción de seleccionar una lista o intervalo de fechas para procesar los datos limpios y crear un `TTree` para realizar el análisis con ROOT.
+El programa además da la opción de transformar los datos limpios en archivos CSV los cuales contienen la información de los 6 planos del detector, de esta manera se facilita un posterior análisis de los datos con herramientas externas.
+- **Concatenación de árboles**:  El programa permite unir una lista o intervalo de archivos ROOT usando la clase `TChain` con opción de exportar el archivo .root resultante.
+- **Filtrado interactivo**: permite aplicar expresiones ROOT para cortes en los datos de todo tipo, ya sea en memoria o creando un nuevo árbol filtrado.
+- **Generación de histogramas 1D/2D**: produce reportes en PDF con estilos predefinidos.
+- **Ajuste exponencial del rate**: procesa timestamps de los tres planos, calcula la distribución de tiempos entre eventos y ajusta un modelo exponencial, mostrando gráficas y parámetros.
 
 ## Requisitos
 
-* Compilador con soporte **C++17**
-* **ROOT 6** instalado (disponible como `root-config`)
+- Compilador con soporte **C++17**
+- **ROOT 6** instalado (disponible como `root-config`)
 
 ## Estructura del proyecto
 
@@ -28,13 +29,11 @@ MATE-Analysis-Tool/
 ## Compilación
 
 1. Clona el repositorio:
-
    ```sh
-   git clone https://github.com/tuusuario/MATE-Analysis-Tool.git
+   git clone https://github.com/diegolmos/MATE-Analysis-Tool.git
    cd MATE-Analysis-Tool
    ```
 2. Ejecuta:
-
    ```sh
    g++ -std=c++17 -Iinclude \
      src/PathConfig.cpp src/DataValidator.cpp src/DataProcessor.cpp \
@@ -49,10 +48,10 @@ El binario `MATE-Analysis-Tool` quedará listo para su uso.
 
 Antes de iniciar, prepare dos carpetas:
 
-* **data/**: coloque los archivos de texto crudos, nombrados como `YYYYMMDD_mate-m101.txt`, `YYYYMMDD_mate-m102.txt` y `YYYYMMDD_mate-m103.txt`.
-* **badData/**: aquí se moverán las triadas inválidas (faltantes o con errores de formato).
+- **data/**: coloque los archivos de texto con datos del detector, nombrados como `YYYY_MM_DD_06h00_mate-m101.txt`, `YYYY_MM_DD_06h00_mate-m102.txt` y `YYYY_MM_DD_06h00_mate-m103.txt`.
+- **badData/**: aquí se moverán las triadas m101/m102/m103 inválidas (faltantes o con errores de formato y escritura ).
 
-Para ejecutar la herramienta, especifique también el archivo de reporte:
+Para ejecutar la herramienta, especifique también el nombre archivo de reporte, este archivo de texto contiene la información de los datos inválidos, indicando la línea, nombre del archivo y el tipo de problema que presenta:
 
 ```sh
 ./MATE-Analysis-Tool data/ badData/ reporte.txt
@@ -63,22 +62,21 @@ En este flujo:
 1. **Validación**: se comprueba cada fecha en `data/` y se registra en `reporte.txt` cualquier triada incompleta o línea corrupta; las triadas erróneas se mueven a `badData/`.
 2. **Procesamiento**: las triadas válidas generan un archivo `YYYYMMDD_combined_output.txt` y un árbol ROOT `YYYYMMDD_output.root` en el directorio actual.
 3. **Menú interactivo**: ofrece opciones para:
-
-   * Concatenar árboles ROOT y guardar el resultado.
-   * Aplicar filtros dinámicos.
-   * Generar histogramas 1D/2D en PDF.
-   * Ajustar la distribución de tiempos entre eventos con modelo exponencial.
+   - Concatenar árboles ROOT y guardar el resultado.
+   - Aplicar filtros dinámicos.
+   - Generar histogramas 1D/2D en PDF.
+   - Ajustar la distribución de tiempos entre eventos con modelo exponencial.
 
 ## Módulos internos
 
-* **PathConfig**: configura rutas de datos y reporte.
-* **DataValidator**: inspecciona y reporta triadas de texto.
-* **DateSelector**: maneja la selección de fechas.
-* **DataProcessor**: convierte triadas en combinados y árboles ROOT.
-* **TreeLoader**: concatena y explora árboles ROOT.
-* **DataFilter**: construye filtros con expresiones ROOT.
-* **HistogramMaker**: crea histogramas 1D/2D en PDF.
-* **RateFitter**: implementa la limpieza de timestamps y el ajuste exponencial del rate.
+- **PathConfig**: configura rutas de datos y reporte.
+- **DataValidator**: inspecciona y reporta triadas de texto.
+- **DateSelector**: maneja la selección de fechas.
+- **DataProcessor**: convierte triadas en combinados y árboles ROOT.
+- **TreeLoader**: concatena y explora árboles ROOT.
+- **DataFilter**: construye filtros con expresiones ROOT.
+- **HistogramMaker**: crea histogramas 1D/2D en PDF.
+- **RateFitter**: implementa la limpieza de timestamps y el ajuste exponencial del rate.
 
 ## Flujo de trabajo resumido
 
@@ -89,5 +87,6 @@ En este flujo:
 5. Generación de histogramas.
 6. Ajuste exponencial del rate.
 
+---
 
-*MATE Analysis Tool* proporciona una solución integral para el análisis de datos de muografía con ROOT y C++.
+

@@ -18,9 +18,7 @@ namespace fs = std::filesystem;
 
 static std::string extractDate(const std::string& prefix)
 
-{
-    return fs::path(prefix).stem().string().substr(0, 8);
-}
+{ return fs::path(prefix).stem().string().substr(0, 8);}
 
 static std::vector<std::string> listRootPrefixes(const std::string& dataDir)
 

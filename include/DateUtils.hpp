@@ -7,8 +7,7 @@
 #include <algorithm>
 #include <cctype>
 
-namespace DateUtils {
-inline std::string prettyDate(const std::string& prefix)
+namespace DateUtils {inline std::string prettyDate(const std::string& prefix)
 {
     std::string stem = std::filesystem::path(prefix).stem().string();
     std::regex  re(R"((\d{4})[_-]?(\d{2})[_-]?(\d{2}))");
@@ -24,7 +23,5 @@ inline std::string digitsDate(const std::string& prefix)
                            [](char c){ return !std::isdigit(c); }),
             s.end());
     return s;                               
-}
-
-} // namespace DateUtils
+}} // namespace DateUtils
 #endif /* DATEUTILS_HPP */

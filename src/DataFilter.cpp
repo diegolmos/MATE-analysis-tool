@@ -1,12 +1,10 @@
 #include "DataFilter.hpp"
-
 #include <TTree.h>
 #include <TEntryList.h>
 #include <TTreeFormula.h>
 #include <TFile.h>
 #include <TDirectory.h>
 #include <TROOT.h>
-
 #include <ctime>
 #include <iostream>
 #include <limits>
@@ -21,8 +19,7 @@ static bool isCutValid(TTree* tree, const std::string& cut)
 
 
 FilterResult runInteractive(TTree* tree)
-{
-    std::string globalCut;
+{std::string globalCut;
 
 
     while (true) {

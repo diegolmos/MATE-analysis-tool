@@ -1,5 +1,5 @@
 #include "DataProcessor.hpp"
-#include "PathConfig.hpp"   // rutas centralizadas
+#include "PathConfig.hpp"   //RUTAS
 
 #include <TFile.h>
 #include <TTree.h>
@@ -16,8 +16,7 @@ namespace fs = std::filesystem;
 
 
 void DataProcessor::processAll(const PathConfig& cfg)
-{
-    std::vector<std::string> prefixes;
+{ std::vector<std::string> prefixes;
     const std::string tag = "mate-m101.txt";
 
     for (const auto& e : fs::directory_iterator(cfg.dataDir)) {
@@ -32,9 +31,7 @@ void DataProcessor::processAll(const PathConfig& cfg)
         std::cout << ">> Procesando fecha: " << pre << " ...\n";
         if (!processDate(cfg, pre))
             std::cerr << "   ! Se omitió por error.\n";
-    }
-}
-
+    }}
 
 bool DataProcessor::processDate(const PathConfig& /*cfg*/,
                                 const std::string& prefix)
@@ -183,13 +180,11 @@ bool DataProcessor::processDate(const PathConfig& /*cfg*/,
         tree.Fill();
     }
 
-
     in101.close(); in102.close(); in103.close();
     out.close();
 
     rootFile.Write();
     rootFile.Close();
-
     std::cout << "   ✔ Archivos creados: "
               << txtOut << " , " << rootOut << '\n';
     return true;
@@ -199,8 +194,7 @@ bool DataProcessor::processDate(const PathConfig& /*cfg*/,
 std::string DataProcessor::hexToBin(const std::string& hex,
                                     int ln,
                                     std::unordered_map<std::string,std::string>& cache)
-{
-    auto it = cache.find(hex);
+{auto it = cache.find(hex);
     if (it != cache.end()) return it->second;
 
     try {
@@ -209,8 +203,7 @@ std::string DataProcessor::hexToBin(const std::string& hex,
     } catch (...) {
         std::cerr << "Warn: hex '" << hex << "' inválido (ln " << ln << ")\n";
         return cache[hex] = std::string(8,'0');
-    }
-}
+    }}
 
 std::vector<int> DataProcessor::binToPositions(const std::string& bin)
 {

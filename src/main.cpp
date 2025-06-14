@@ -6,11 +6,9 @@
 #include "DataFilter.hpp"
 #include "HistogramMaker.hpp"
 #include "RateFitter.hpp"          
-
 #include <TFile.h>
 #include <TTree.h>
 #include <TROOT.h>
-
 #include <iostream>
 #include <sstream>
 #include <ctime>
@@ -18,10 +16,7 @@
 
 
 static void clearCin()
-{
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-}
-
+{std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');}
 
 static void saveTreeToFile(TTree* tree)
 {

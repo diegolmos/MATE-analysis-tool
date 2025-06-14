@@ -3,8 +3,8 @@
 
 #include <string>
 #include <vector>
-/// \param validPrefixes lista de prefijos válidos, **ordenada**.
-/// \return sub-lista preservando el mismo orden.
+/// \param validPrefixes lista de prefijos válidos
+/// \return sub-lista preservando el mismo orden
 std::vector<std::string>
 selectDatePrefixes(const std::vector<std::string>& validPrefixes);
 

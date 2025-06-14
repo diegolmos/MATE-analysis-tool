@@ -1,5 +1,5 @@
 #include "DateSelector.hpp"
-#include "DateUtils.hpp"          // prettyDate & digitsDate
+#include "DateUtils.hpp"     
 
 #include <algorithm>
 #include <cctype>
@@ -56,17 +56,13 @@ selectDatePrefixes(const std::vector<std::string>& valid)
                      t.end());
             return t;
         };
-
         std::stringstream ss(input); std::string tok;
         while (std::getline(ss, tok, ',')) {
             tok = cleanToken(tok);
             for (const auto& p : valid)
                 if (DateUtils::digitsDate(p) == tok)
                     { wanted.insert(p); break; }
-        }
-    }
-
-
+        }}
     std::vector<std::string> selected;
     for (const auto& p : valid)
         if (wanted.count(p)) selected.push_back(p);

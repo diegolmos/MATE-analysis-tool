@@ -4,7 +4,7 @@
 #include "PathConfig.hpp"
 
 class TTree;  
-/// \return `TTree*`  (puede ser un `TChain`, que hereda de `TTree`).<br>
+/// \return `TTree*` cargado de los archivos .root
 
 TTree* loadRootChainInteractive(const PathConfig& cfg);
 
