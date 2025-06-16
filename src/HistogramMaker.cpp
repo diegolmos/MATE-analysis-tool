@@ -71,7 +71,7 @@ void runHistograms(TTree* tree)
             h->SetStats(false);
             // EJE Y DESDE 0
             double ymax = h->GetMaximum();
-            h->GetYaxis()->SetRangeUser(0.0, ymax*1.1)
+            h->GetYaxis()->SetRangeUser(0.0, ymax*1.1);
             //Eje X ticks cada 1
             h->GetXaxis()->SetNdivisions(12, kFALSE);
             h->GetXaxis()->CenterLabels();

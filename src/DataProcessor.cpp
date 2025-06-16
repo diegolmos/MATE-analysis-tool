@@ -49,8 +49,19 @@ bool DataProcessor::processDate(const PathConfig& /*cfg*/,
     }
 
     //OUTPUTS
-    const std::string txtOut  = prefix + "combined_output.txt";
+    const std::string csvOut  = prefix + "combined_output.csv";
     const std::string rootOut = prefix + "output.root";
+
+    std::ofstream out{csvOut};                                   
+    if (!out) {
+        std::cerr << "No se pudo crear " << csvOut << '\n';
+        return false;
+    }
+
+    out << "ts,"
+           "A1,B1,A2,B2,A3,B3,"
+           "nA1,nB1,nA2,nB2,nA3,nB3,"
+           "ts2_m101,ts2_m102,ts2_m103,evt\n"; 
 
     //VARIABLES TREE
     Long64_t ts, ts2_m101, ts2_m102, ts2_m103;
@@ -85,7 +96,7 @@ bool DataProcessor::processDate(const PathConfig& /*cfg*/,
     auto vecStr   = DataProcessor::positionsToString;
 
 
-    std::ofstream out(txtOut);
+   
 
     std::string l101, l102, l103, tmp;
 
@@ -159,12 +170,12 @@ bool DataProcessor::processDate(const PathConfig& /*cfg*/,
 
         
         out << ts1 << ','
-            << sB1 << ',' << sA1 << ','
-            << sB2 << ',' << sA2 << ','
-            << sB3 << ',' << sA3 << ','
-            << evt1 << ',' << ts21 << ',' << ts22 << ',' << ts23 << ','
-            << nB1 << ',' << nA1 << ',' << nB2 << ',' << nA2 << ','
-            << nB3 << ',' << nA3 << '\n';
+            << sA1 << ',' << sB1 << ','
+            << sA2 << ',' << sB2 << ','
+            << sA3 << ',' << sB3 << ',' << nA1 << ',' << nB1 << ',' << nA2 << ',' << nB2 << ','
+            << nA3 << ',' << nB3 << ','
+             << ts21 << ',' << ts22 << ',' << ts23 << ',' << evt1 << 
+            '\n';
 
         //TREE FILL
         ts        = std::stoll(ts1);
@@ -186,7 +197,7 @@ bool DataProcessor::processDate(const PathConfig& /*cfg*/,
     rootFile.Write();
     rootFile.Close();
     std::cout << "   ✔ Archivos creados: "
-              << txtOut << " , " << rootOut << '\n';
+              << csvOut << " , " << rootOut << '\n';
     return true;
 }
 
