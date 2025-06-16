@@ -1,12 +1,30 @@
 # MATE Analysis Tool
 
-MATE Analysis Tool es una pequeña herramienta en C++ basada en ROOT que facilita el procesamiento y análisis de datos del Muon Andes Telescope (MATE).
+MATE Analysis Tool es una pequeña herramienta en C++ basada en ROOT que facilita el procesamiento y análisis de datos del Muon Andes Telescope (MATE).  
+El detector MATE cuenta con tres módulos de detección: M101, M102 y M103, cada uno compuesto por 2 planos ortogonales de barras centelladoras (planos A y B).
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/aa7dae95-5371-4c08-8705-21bd21c34249" width="300">
+  <img src="https://github.com/user-attachments/assets/5d267bf0-3375-40cc-b9f7-96af8e46b52b" width="300">
+</p>
+
 
 ## Características principales
 
 - **Validación de fechas** (m101/m102/m103): Detecta archivos faltantes, líneas corruptas y otros posibles errores para cada archivo con datos del detector, genera un informe y separa los datos inválidos en un directorio definido por el usuario.
 - **Conversión a ROOT**: Luego de validar los archivos, el programa da la opción de seleccionar una lista o intervalo de fechas para procesar los datos limpios y crear un `TTree` para realizar el análisis con ROOT.
-El programa además da la opción de transformar los datos limpios en archivos CSV los cuales contienen la información de los 6 planos del detector, de esta manera se facilita un posterior análisis de los datos con herramientas externas. Los archivos resultantes .CSV y .ROOT poseen el siguiente formato en su columnas/branches: METER TABLA, P
+El programa además da la opción de transformar los datos limpios en archivos CSV los cuales contienen la información de los 6 planos del detector, de esta manera se facilita un posterior análisis de los datos con herramientas externas. Los archivos resultantes .CSV y .ROOT poseen el siguiente formato en su columnas/branches: 
+
+| Columna / Branch | Descripción |
+|------------------|-------------|
+| `ts` | **UNIX Timestamp (resolución de 1 s)**. Estampa temporal generada por el router al recibir el evento. |
+| `A1`, `B1` | Barras activadas en los planos **A1** y **B1** del módulo **M101**. |
+| `A2`, `B2` | Barras activadas en los planos **A2** y **B2** del módulo **M102**. |
+| `A3`, `B3` | Barras activadas en los planos **A3** y **B3** del módulo **M103**. |
+| `nA1`, `nB1`, `nA2`, `nB2`, `nA3`, `nB3` | Contadores de hits simultáneos por plano (útiles para filtros de multiplicidad). |
+| `ts2_m101`, `ts2_m102`, `ts2_m103` | **eKit Local Timestamp (resolución de 100 ns)** de cada módulo. Puede ser `0` debido a un bug. Se usan en el ajuste exponencial. |
+| `evt` | Identificador del evento. |
+NOTA: Las columnas Ai y Bi en los archivos .csv corresponden a listas contenidas dentro de un paréntesis (), mientras que las branches del TTree corresponden a vectores de tamaño 12. Es importante mencionar que el método Scan de ROOT solo permite mostrar un único elemento de un vector, por defecto es el primer elemento (Ai[0] y Bi[0]) 
 - **Concatenación de árboles**:  El programa permite unir una lista o intervalo de archivos ROOT usando la clase `TChain` con opción de exportar el archivo .root resultante.
   <img width="1333" alt="image" src="https://github.com/user-attachments/assets/3b2cada3-2c53-4fbd-8bb5-419a84366aa2" />
 
