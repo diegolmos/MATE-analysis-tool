@@ -10,11 +10,13 @@ El programa además da la opción de transformar los datos limpios en archivos C
 - **Concatenación de árboles**:  El programa permite unir una lista o intervalo de archivos ROOT usando la clase `TChain` con opción de exportar el archivo .root resultante.
 - **Filtrado interactivo**: permite aplicar expresiones ROOT para cortes en los datos de todo tipo, ya sea en memoria o creando un nuevo árbol filtrado.
 - **Generación de histogramas 1D/2D**: produce reportes en PDF con estilos predefinidos.
-  [hist2d_planes.pdf](https://github.com/user-attachments/files/20751261/hist2d_planes.pdf)
-  [hist1d.pdf](https://github.com/user-attachments/files/20751257/hist1d.pdf)
+  <img width="1077" alt="image" src="https://github.com/user-attachments/assets/08d89b79-c74d-4da2-b0cc-5d6279935275" />
+  <img width="624" alt="image" src="https://github.com/user-attachments/assets/e92a4a91-d36f-4683-b5cf-0e299a9f723e" />
+
 
 - **Ajuste exponencial del rate**: procesa timestamps de los tres planos, calcula la distribución de tiempos entre eventos y ajusta un modelo exponencial, mostrando gráficas y parámetros.
-  [rate_fit.pdf](https://github.com/user-attachments/files/20751264/rate_fit.pdf)
+  <img width="879" alt="image" src="https://github.com/user-attachments/assets/1ce5137f-cecf-4c21-992d-6a682f4ae9ac" />
+
 
 
 ## Requisitos
