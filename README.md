@@ -6,8 +6,10 @@ MATE Analysis Tool es una pequeña herramienta en C++ basada en ROOT que facilit
 
 - **Validación de fechas** (m101/m102/m103): Detecta archivos faltantes, líneas corruptas y otros posibles errores para cada archivo con datos del detector, genera un informe y separa los datos inválidos en un directorio definido por el usuario.
 - **Conversión a ROOT**: Luego de validar los archivos, el programa da la opción de seleccionar una lista o intervalo de fechas para procesar los datos limpios y crear un `TTree` para realizar el análisis con ROOT.
-El programa además da la opción de transformar los datos limpios en archivos CSV los cuales contienen la información de los 6 planos del detector, de esta manera se facilita un posterior análisis de los datos con herramientas externas.
+El programa además da la opción de transformar los datos limpios en archivos CSV los cuales contienen la información de los 6 planos del detector, de esta manera se facilita un posterior análisis de los datos con herramientas externas. Los archivos resultantes .CSV y .ROOT poseen el siguiente formato en su columnas/branches: METER TABLA, P
 - **Concatenación de árboles**:  El programa permite unir una lista o intervalo de archivos ROOT usando la clase `TChain` con opción de exportar el archivo .root resultante.
+  <img width="1333" alt="image" src="https://github.com/user-attachments/assets/3b2cada3-2c53-4fbd-8bb5-419a84366aa2" />
+
 - **Filtrado interactivo**: permite aplicar expresiones ROOT para cortes en los datos de todo tipo, ya sea en memoria o creando un nuevo árbol filtrado.
 - **Generación de histogramas 1D/2D**: produce reportes en PDF con estilos predefinidos.
   <img width="800" alt="image" src="https://github.com/user-attachments/assets/08d89b79-c74d-4da2-b0cc-5d6279935275" />
