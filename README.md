@@ -10,7 +10,12 @@ El programa además da la opción de transformar los datos limpios en archivos C
 - **Concatenación de árboles**:  El programa permite unir una lista o intervalo de archivos ROOT usando la clase `TChain` con opción de exportar el archivo .root resultante.
 - **Filtrado interactivo**: permite aplicar expresiones ROOT para cortes en los datos de todo tipo, ya sea en memoria o creando un nuevo árbol filtrado.
 - **Generación de histogramas 1D/2D**: produce reportes en PDF con estilos predefinidos.
+  [hist2d_planes.pdf](https://github.com/user-attachments/files/20751261/hist2d_planes.pdf)
+  [hist1d.pdf](https://github.com/user-attachments/files/20751257/hist1d.pdf)
+
 - **Ajuste exponencial del rate**: procesa timestamps de los tres planos, calcula la distribución de tiempos entre eventos y ajusta un modelo exponencial, mostrando gráficas y parámetros.
+  [rate_fit.pdf](https://github.com/user-attachments/files/20751264/rate_fit.pdf)
+
 
 ## Requisitos
 
@@ -51,11 +56,8 @@ Antes de iniciar, prepare dos carpetas:
 - **data/**: coloque los archivos de texto con datos del detector, nombrados como `YYYY_MM_DD_06h00_mate-m101.txt`, `YYYY_MM_DD_06h00_mate-m102.txt` y `YYYY_MM_DD_06h00_mate-m103.txt`.
 - **badData/**: aquí se moverán las triadas m101/m102/m103 inválidas (faltantes o con errores de formato y escritura ).
 
-Para ejecutar la herramienta, especifique también el nombre archivo de reporte, este archivo de texto contiene la información de los datos inválidos, indicando la línea, nombre del archivo y el tipo de problema que presenta:
+Para ejecutar la herramienta, se pedirá especificar también el nombre archivo de reporte, este archivo de texto contiene la información de los datos inválidos, indicando la línea, nombre del archivo y el tipo de problema que presenta.
 
-```sh
-./MATE-Analysis-Tool data/ badData/ reporte.txt
-```
 
 En este flujo:
 
