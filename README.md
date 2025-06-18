@@ -119,4 +119,6 @@ En este flujo:
 3. Incluir branch de theta_x junto a theta_y
 4. Crear módulo que permita hacer el fitting de rate vs. ángulo
 5. Corregir errores estadisticos de rate vs delta T
+6. Implementación en QT creator
+7. Optimizar validación de fechas
 
