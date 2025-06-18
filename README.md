@@ -112,5 +112,11 @@ En este flujo:
 6. Ajuste exponencial del rate.
 
 ---
+## Reminder de próximas adiciones
 
+1. Incluir branch/columna de zenith para cada medición/fecha, necesaria para hacer el ajuste de rate vs. ángulo.
+2. permitir también concatenar archivos .csv
+3. Incluir branch de theta_x junto a theta_y
+4. Crear módulo que permita hacer el fitting de rate vs. ángulo
+5. Corregir errores estadisticos de rate vs delta T
 
